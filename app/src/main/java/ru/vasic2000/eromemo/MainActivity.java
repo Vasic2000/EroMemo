@@ -17,9 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private GridLayout gridLayout;
     private LinearLayout victoryScreen;
 
-    private Button restartButton;
-    private Button exitButton;
-
     private int[] cardImages = {
             R.drawable.card_1, R.drawable.card_1,
             R.drawable.card_2, R.drawable.card_2,
@@ -41,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         gridLayout = findViewById(R.id.gridLayout);
         victoryScreen = findViewById(R.id.victoryScreen);
-        restartButton = findViewById(R.id.restartButton);
-        exitButton = findViewById(R.id.exitButton);
+        Button restartButton = findViewById(R.id.restartButton);
+        Button exitButton = findViewById(R.id.exitButton);
 
         restartButton.setOnClickListener(v -> restartGame());
         exitButton.setOnClickListener(v -> exitGame());

@@ -1,7 +1,5 @@
 package ru.vasic2000.eromemo;
 
-import static androidx.core.view.ViewCompat.setBackground;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
