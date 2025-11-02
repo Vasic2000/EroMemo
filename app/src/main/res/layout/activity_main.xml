@@ -31,12 +31,22 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <Button
+            android:id="@+id/level0Button"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="20dp"
+            android:background="#2196F3"
+            android:text="Уровень 1"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <Button
             android:id="@+id/level1Button"
             android:layout_width="250dp"
             android:layout_height="60dp"
             android:layout_marginBottom="20dp"
             android:background="#2196F3"
-            android:text="Уровень 1 (12 карточек)"
+            android:text="Уровень 2"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
@@ -46,7 +56,7 @@
             android:layout_height="60dp"
             android:layout_marginBottom="20dp"
             android:background="#2196F3"
-            android:text="Уровень 2 (16 карточек)"
+            android:text="Уровень 3"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
@@ -56,7 +66,7 @@
             android:layout_height="60dp"
             android:layout_marginBottom="40dp"
             android:background="#2196F3"
-            android:text="Уровень 3 (20 карточек)"
+            android:text="Уровень 4"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
