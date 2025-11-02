@@ -2,6 +2,7 @@ package ru.vasic2000.eromemo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -14,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button level0Button, level1Button, level2Button, level3Button, exitButton;
     private SharedPreferences preferences;
+
+    private MediaPlayer clickSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         // Инициализация SharedPreferences для сохранения прогресса
         preferences = getSharedPreferences("game_progress", MODE_PRIVATE);
 
+        initializeSounds();
         initializeViews();
         updateLevelButtons();
 
@@ -41,11 +45,28 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
+    private void initializeSounds() {
+        // Инициализация звуковых эффектов
+        clickSound = MediaPlayer.create(this, R.raw.click);
+        // Устанавливаем громкость (опционально)
+        clickSound.setVolume(0.8f, 0.8f);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         // Обновляем состояние кнопок при возвращении в меню
         updateLevelButtons();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Освобождаем ресурсы MediaPlayer при уничтожении активности
+        if (clickSound != null) {
+            clickSound.release();
+            clickSound = null;
+        }
     }
 
     private void updateLevelButtons() {
@@ -103,7 +124,16 @@ public class MainActivity extends AppCompatActivity {
         exitButton.setOnClickListener(v -> showExitConfirmation());
     }
 
+    private void playClickSound() {
+        if (clickSound != null) {
+            clickSound.seekTo(0); // Перематываем в начало
+            clickSound.start();
+        }
+    }
+
     private void startGame(int level, int cardCount, int columns, int rows, int pairsCount) {
+
+        playClickSound();
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("LEVEL", level);
         intent.putExtra("CARD_COUNT", cardCount);
@@ -115,15 +145,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showExitConfirmation() {
+        playClickSound();
         new AlertDialog.Builder(this)
                 .setTitle("Выход из игры")
                 .setMessage("Вы действительно хотите выйти?")
                 .setPositiveButton("Да", (dialog, which) -> {
                     // Завершаем все активности и выходим из приложения
+                    playClickSound();
                     finishAffinity();
                     System.exit(0);
                 })
-                .setNegativeButton("Нет", null)
+                .setNegativeButton("Нет", (dialog, which) -> {
+                 playClickSound();
+                })
                 .show();
     }
 }

@@ -2,6 +2,7 @@ package ru.vasic2000.eromemo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -53,6 +54,13 @@ public class GameActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private boolean isBoardLocked = false;
 
+    // MediaPlayer для звуковых эффектов
+    private MediaPlayer flipSound;
+    private MediaPlayer clickSound;
+    private MediaPlayer matchSound;
+    private MediaPlayer mismatchSound;
+    private MediaPlayer winSound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +82,50 @@ public class GameActivity extends AppCompatActivity {
         rows = intent.getIntExtra("ROWS", 3);
         pairsCount = intent.getIntExtra("PAIRS_COUNT", 6);
 
+        initializeSounds();
         initializeViews();
         initializeGame();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Освобождаем ресурсы MediaPlayer при уничтожении активности
+        if (flipSound != null) {
+            flipSound.release();
+            flipSound = null;
+        }
+        if (matchSound != null) {
+            matchSound.release();
+            matchSound = null;
+        }
+        if (mismatchSound != null) {
+            mismatchSound.release();
+            mismatchSound = null;
+        }
+        if (clickSound != null) {
+            clickSound.release();
+            clickSound = null;
+        }
+        if (winSound != null) {
+            winSound.release();
+            winSound = null;
+        }
+    }
+
+    private void initializeSounds() {
+        // Инициализация звуковых эффектов
+        flipSound = MediaPlayer.create(this, R.raw.flip);
+        matchSound = MediaPlayer.create(this, R.raw.match);
+        mismatchSound = MediaPlayer.create(this, R.raw.flipback);
+        clickSound = MediaPlayer.create(this, R.raw.click);
+        winSound = MediaPlayer.create(this, R.raw.win);
+        // Устанавливаем громкость (опционально)
+        flipSound.setVolume(0.8f, 0.8f);
+        matchSound.setVolume(0.8f, 0.8f);
+        mismatchSound.setVolume(0.8f, 0.8f);
+        winSound.setVolume(0.8f, 0.8f);
+        clickSound.setVolume(0.8f, 0.8f);
     }
 
     private void initializeViews() {
@@ -118,6 +168,41 @@ public class GameActivity extends AppCompatActivity {
         prepareCardImages();
         shuffleCards();
         createCards();
+    }
+
+    private void playFlipSound() {
+        if (flipSound != null) {
+            flipSound.seekTo(0); // Перематываем в начало
+            flipSound.start();
+        }
+    }
+
+    private void playMatchSound() {
+        if (matchSound != null) {
+            matchSound.seekTo(0); // Перематываем в начало
+            matchSound.start();
+        }
+    }
+
+    private void playMismatchSound() {
+        if (mismatchSound != null) {
+            mismatchSound.seekTo(0); // Перематываем в начало
+            mismatchSound.start();
+        }
+    }
+
+    private void playWinSound() {
+        if (winSound != null) {
+            winSound.seekTo(0); // Перематываем в начало
+            winSound.start();
+        }
+    }
+
+    private void playClickSound() {
+        if (clickSound != null) {
+            clickSound.seekTo(0); // Перематываем в начало
+            clickSound.start();
+        }
     }
 
     private void prepareCardImages() {
@@ -195,6 +280,7 @@ public class GameActivity extends AppCompatActivity {
         flippedCards++;
 
         if (flippedCards == 1) {
+            playFlipSound();
             firstCard = card;
         } else if (flippedCards == 2) {
             secondCard = card;
@@ -205,6 +291,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void checkForMatch() {
         if (firstCard.getImageResource() == secondCard.getImageResource()) {
+            playMatchSound();
             handler.postDelayed(() -> {
                 firstCard.setMatched();
                 secondCard.setMatched();
@@ -219,6 +306,7 @@ public class GameActivity extends AppCompatActivity {
                 resetFlippedCards();
                 isBoardLocked = false;
             }, 1000);
+            playMismatchSound();
         }
     }
 
@@ -266,6 +354,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showVictoryScreen() {
+        playWinSound();
         victoryTitle.setText("Уровень " + level + " пройден!");
         victoryScreen.setAlpha(0f);
         victoryScreen.setVisibility(View.VISIBLE);
@@ -276,6 +365,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void restartGame() {
+        playClickSound();
         victoryScreen.animate()
                 .alpha(0f)
                 .setDuration(300)
@@ -291,11 +381,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void goToMenu() {
+        playClickSound();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
     private void goToNextLevel() {
+        playClickSound();
         int nextLevel = level + 1;
         int nextCardCount;
         int nextColumns;
@@ -338,6 +430,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showExitConfirmation() {
+        playClickSound();
         new AlertDialog.Builder(this)
                 .setTitle("Выход в меню")
                 .setMessage("Вы действительно хотите выйти в главное меню?")
