@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">EroMemo</string>
+    <string name="fullExitString">Вы действительно хотите выйти?</string>
+    <string name="exitGameTitle">Выход из игры</string>
+    <string name="yesString">Да</string>
+    <string name="noString">Нет</string>
+    <string name="levelString">"Уровень "</string>
+    <string name="cardsQuantityString">" карточек)"</string>
+    <string name="level">"Уровень "</string>
+    <string name="levelComplited">" пройден!"</string>
+    <string name="exitToMenuString">Выход в меню</string>
+    <string name="exitToMainMenuString">Вы действительно хотите выйти в главное меню?</string>
 </resources>

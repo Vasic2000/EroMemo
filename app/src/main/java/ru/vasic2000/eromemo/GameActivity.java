@@ -142,7 +142,7 @@ public class GameActivity extends AppCompatActivity {
         gridLayout.setRowCount(rows);
 
         // Устанавливаем информацию об уровне
-        levelInfo.setText("Уровень " + level + " (" + cardCount + " карточек)");
+        levelInfo.setText(getString(R.string.levelString) + level + " (" + cardCount + getString(R.string.cardsQuantityString));
 
         restartButton.setOnClickListener(v -> restartGame());
         menuButton.setOnClickListener(v -> goToMenu());
@@ -355,7 +355,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void showVictoryScreen() {
         playWinSound();
-        victoryTitle.setText("Уровень " + level + " пройден!");
+        victoryTitle.setText(getString(R.string.level) + level + getString(R.string.levelComplited));
         victoryScreen.setAlpha(0f);
         victoryScreen.setVisibility(View.VISIBLE);
         victoryScreen.animate()
@@ -432,10 +432,10 @@ public class GameActivity extends AppCompatActivity {
     private void showExitConfirmation() {
         playClickSound();
         new AlertDialog.Builder(this)
-                .setTitle("Выход в меню")
-                .setMessage("Вы действительно хотите выйти в главное меню?")
-                .setPositiveButton("Да", (dialog, which) -> goToMenu())
-                .setNegativeButton("Нет", null)
+                .setTitle(R.string.exitToMenuString)
+                .setMessage(R.string.exitToMainMenuString)
+                .setPositiveButton(R.string.yesString, (dialog, which) -> goToMenu())
+                .setNegativeButton(R.string.noString, null)
                 .setCancelable(false)
                 .show();
     }

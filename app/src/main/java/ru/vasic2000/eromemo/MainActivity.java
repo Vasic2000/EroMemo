@@ -147,15 +147,15 @@ public class MainActivity extends AppCompatActivity {
     private void showExitConfirmation() {
         playClickSound();
         new AlertDialog.Builder(this)
-                .setTitle("Выход из игры")
-                .setMessage("Вы действительно хотите выйти?")
-                .setPositiveButton("Да", (dialog, which) -> {
+                .setTitle(R.string.exitGameTitle)
+                .setMessage(R.string.fullExitString)
+                .setPositiveButton(R.string.yesString, (dialog, which) -> {
                     // Завершаем все активности и выходим из приложения
                     playClickSound();
                     finishAffinity();
                     System.exit(0);
                 })
-                .setNegativeButton("Нет", (dialog, which) -> {
+                .setNegativeButton(R.string.noString, (dialog, which) -> {
                  playClickSound();
                 })
                 .show();
