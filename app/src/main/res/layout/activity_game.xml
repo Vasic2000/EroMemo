@@ -1,0 +1,95 @@
+<!-- activity_game.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5">
+
+    <!-- Панель информации об уровне -->
+    <TextView
+        android:id="@+id/levelInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Уровень 1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:textColor="#333333" />
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Экран победы -->
+    <LinearLayout
+        android:id="@+id/victoryScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#CC000000"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/victoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Уровень пройден!"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Вы нашли все пары!"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="40dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/restartButton"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:text="Играть снова"
+                android:textSize="18sp"
+                android:background="#2196F3"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="20dp" />
+
+            <Button
+                android:id="@+id/menuButton"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:text="В меню"
+                android:textSize="18sp"
+                android:background="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="20dp" />
+
+            <Button
+                android:id="@+id/nextLevelButton"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:text="Следующий уровень"
+                android:textSize="18sp"
+                android:background="#FF9800"
+                android:textColor="#FFFFFF"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
