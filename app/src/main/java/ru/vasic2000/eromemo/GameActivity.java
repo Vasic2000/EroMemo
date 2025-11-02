@@ -29,11 +29,19 @@ public class GameActivity extends AppCompatActivity {
     private int cardCount;
     private int columns;
     private int rows;
+    private int pairsCount;
 
     private int[] allCardImages = {
             R.drawable.card_1, R.drawable.card_2, R.drawable.card_3, R.drawable.card_4,
             R.drawable.card_5, R.drawable.card_6, R.drawable.card_7, R.drawable.card_8,
-            R.drawable.card_9, R.drawable.card_10
+            R.drawable.card_9, R.drawable.card_10, R.drawable.card_11, R.drawable.card_12,
+            R.drawable.card_13, R.drawable.card_14, R.drawable.card_15, R.drawable.card_16,
+            R.drawable.card_17, R.drawable.card_18, R.drawable.card_19, R.drawable.card_20,
+            R.drawable.card_21, R.drawable.card_22, R.drawable.card_23, R.drawable.card_24,
+            R.drawable.card_25, R.drawable.card_26, R.drawable.card_27, R.drawable.card_28,
+            R.drawable.card_29, R.drawable.card_30, R.drawable.card_31, R.drawable.card_32,
+            R.drawable.card_33, R.drawable.card_34, R.drawable.card_35, R.drawable.card_36,
+            R.drawable.card_37, R.drawable.card_38, R.drawable.card_39, R.drawable.card_40
     };
     private int[] cardImages;
     private Card[] cards;
@@ -58,6 +66,7 @@ public class GameActivity extends AppCompatActivity {
         cardCount = intent.getIntExtra("CARD_COUNT", 12);
         columns = intent.getIntExtra("COLUMNS", 4);
         rows = intent.getIntExtra("ROWS", 3);
+        pairsCount = intent.getIntExtra("PAIRS_COUNT", 6);
 
         initializeViews();
         initializeGame();
@@ -106,17 +115,37 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void prepareCardImages() {
-        int pairsNeeded = cardCount / 2;
-        cardImages = new int[cardCount];
+        // Выбираем случайные картинки из всех доступных
+        int[] selectedImages = selectRandomImages(pairsCount);
 
         // Создаем пары карточек
-        for (int i = 0; i < pairsNeeded; i++) {
-            int imageIndex = i % allCardImages.length;
-            cardImages[i * 2] = allCardImages[imageIndex];
-            cardImages[i * 2 + 1] = allCardImages[imageIndex];
+        cardImages = new int[cardCount];
+        for (int i = 0; i < pairsCount; i++) {
+            cardImages[i * 2] = selectedImages[i];
+            cardImages[i * 2 + 1] = selectedImages[i];
         }
 
         cards = new Card[cardCount];
+    }
+
+    private int[] selectRandomImages(int count) {
+        // Создаем копию массива всех картинок
+        int[] availableImages = allCardImages.clone();
+
+        // Перемешиваем массив
+        Random random = new Random();
+        for (int i = availableImages.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            int temp = availableImages[i];
+            availableImages[i] = availableImages[j];
+            availableImages[j] = temp;
+        }
+
+        // Выбираем первые 'count' элементов
+        int[] selected = new int[count];
+        System.arraycopy(availableImages, 0, selected, 0, count);
+
+        return selected;
     }
 
     private void shuffleCards() {
@@ -131,6 +160,10 @@ public class GameActivity extends AppCompatActivity {
 
     private void createCards() {
         gridLayout.removeAllViews();
+        int gridlayout_weight = getResources().getDisplayMetrics().widthPixels - 60;
+
+        int cardWeight = gridlayout_weight / columns - 25;
+        int cardHeight = cardWeight;
 
         for (int i = 0; i < cardImages.length; i++) {
             cards[i] = new Card(this);
@@ -141,8 +174,8 @@ public class GameActivity extends AppCompatActivity {
             GridLayout.Spec row = GridLayout.spec(i / columns);
             GridLayout.Spec col = GridLayout.spec(i % columns);
             GridLayout.LayoutParams params = new GridLayout.LayoutParams(row, col);
-            params.width = getResources().getDisplayMetrics().widthPixels / columns - 20;
-            params.height = params.width;
+            params.width = cardWeight;
+            params.height = cardHeight;
             params.setMargins(10, 10, 10, 10);
 
             gridLayout.addView(cards[i], params);
@@ -172,7 +205,7 @@ public class GameActivity extends AppCompatActivity {
                 resetFlippedCards();
                 isBoardLocked = false;
                 checkGameCompletion();
-            }, 500);
+            }, 250);
         } else {
             handler.postDelayed(() -> {
                 firstCard.flip();

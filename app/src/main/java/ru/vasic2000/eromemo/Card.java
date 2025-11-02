@@ -106,12 +106,9 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton {
     public void setMatched() {
         isMatched = true;
         // Анимация исчезновения для совпавших карточек
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(this, "alpha", 1f, 0.3f);
-        fadeOut.setDuration(500);
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(this, "alpha", 1f, 0.25f);
+        fadeOut.setDuration(250);
         fadeOut.start();
-
-//        setBackgroundColor(Color.TRANSPARENT);
-//        setTextColor(Color.TRANSPARENT);
     }
 
     public boolean isFlipped() {

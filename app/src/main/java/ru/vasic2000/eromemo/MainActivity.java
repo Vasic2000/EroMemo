@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
         Button exitButton = findViewById(R.id.exitButton);
 
         // Обработчики кнопок - запускаем GameActivity с разными параметрами
-        level1Button.setOnClickListener(v -> startGame(1, 12, 4, 3));
-        level2Button.setOnClickListener(v -> startGame(2, 16, 4, 4));
-        level3Button.setOnClickListener(v -> startGame(3, 20, 4, 5));
+        level1Button.setOnClickListener(v -> startGame(1, 12, 4, 3, 6));
+        level2Button.setOnClickListener(v -> startGame(2, 16, 4, 4, 8));
+        level3Button.setOnClickListener(v -> startGame(3, 20, 4, 5, 10));
         exitButton.setOnClickListener(v -> showExitConfirmation());
 
         // Обработка кнопки "Назад"
@@ -42,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    private void startGame(int level, int cardCount, int columns, int rows) {
+    private void startGame(int level, int cardCount, int columns, int rows, int pairsCount) {
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("LEVEL", level);
         intent.putExtra("CARD_COUNT", cardCount);
         intent.putExtra("COLUMNS", columns);
         intent.putExtra("ROWS", rows);
+        intent.putExtra("PAIRS_COUNT", pairsCount);
         startActivity(intent);
     }
 
