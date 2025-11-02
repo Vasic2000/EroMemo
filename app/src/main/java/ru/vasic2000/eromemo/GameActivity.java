@@ -1,6 +1,7 @@
 package ru.vasic2000.eromemo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -31,6 +32,8 @@ public class GameActivity extends AppCompatActivity {
     private int rows;
     private int pairsCount;
 
+    private SharedPreferences preferences;
+
     private int[] allCardImages = {
             R.drawable.card_1, R.drawable.card_2, R.drawable.card_3, R.drawable.card_4,
             R.drawable.card_5, R.drawable.card_6, R.drawable.card_7, R.drawable.card_8,
@@ -59,6 +62,9 @@ public class GameActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_game);
+
+        // Инициализация SharedPreferences
+        preferences = getSharedPreferences("game_progress", MODE_PRIVATE);
 
         // Получаем параметры уровня
         Intent intent = getIntent();
@@ -232,8 +238,31 @@ public class GameActivity extends AppCompatActivity {
         }
 
         if (allMatched) {
+            saveLevelProgress();
             handler.postDelayed(this::showVictoryScreen, 500);
         }
+    }
+
+    private void saveLevelProgress() {
+        // Сохраняем прогресс прохождения уровня
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // Отмечаем текущий уровень как пройденный
+        switch (level) {
+            case 1:
+                editor.putBoolean("level_0_passed", true);
+                break;
+            case 2:
+                editor.putBoolean("level_1_passed", true);
+                break;
+            case 3:
+                editor.putBoolean("level_2_passed", true);
+                break;
+            case 4:
+                editor.putBoolean("level_3_passed", true);
+                break;
+        }
+        editor.apply();
     }
 
     private void showVictoryScreen() {
