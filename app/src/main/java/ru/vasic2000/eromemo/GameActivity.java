@@ -93,7 +93,7 @@ public class GameActivity extends AppCompatActivity {
         nextLevelButton.setOnClickListener(v -> goToNextLevel());
 
         // Показываем кнопку следующего уровня только если есть следующий уровень
-        if (level < 3) {
+        if (level < 4) {
             nextLevelButton.setVisibility(View.VISIBLE);
         }
 
@@ -268,21 +268,30 @@ public class GameActivity extends AppCompatActivity {
 
     private void goToNextLevel() {
         int nextLevel = level + 1;
-        int nextCardCount = 0;
-        int nextColumns = 0;
-        int nextRows = 0;
+        int nextCardCount;
+        int nextColumns;
+        int nextRows;
+        int nextPairsCount;
 
         // Определяем параметры следующего уровня
         switch (nextLevel) {
             case 2:
+                nextCardCount = 12;
+                nextColumns = 3;
+                nextRows = 4;
+                nextPairsCount = 6;
+                break;
+            case 3:
                 nextCardCount = 16;
                 nextColumns = 4;
                 nextRows = 4;
+                nextPairsCount = 8;
                 break;
-            case 3:
+            case 4:
                 nextCardCount = 20;
                 nextColumns = 4;
                 nextRows = 5;
+                nextPairsCount = 10;
                 break;
             default:
                 goToMenu();
@@ -294,6 +303,7 @@ public class GameActivity extends AppCompatActivity {
         intent.putExtra("CARD_COUNT", nextCardCount);
         intent.putExtra("COLUMNS", nextColumns);
         intent.putExtra("ROWS", nextRows);
+        intent.putExtra("PAIRS_COUNT", nextPairsCount);
         startActivity(intent);
         finish();
     }
